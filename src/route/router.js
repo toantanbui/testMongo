@@ -15,6 +15,8 @@ const handleRouter = (app) => {
     router.post('/deletePost', userController.handleDeletePost)
 
     router.post('/createComment', userController.handleCreateComment)
+    router.post('/updateComment', userController.handleUpdateComment)
+    router.post('/deleteComment', userController.handleDeleteComment)
 
     return app.use('/', router)
 }

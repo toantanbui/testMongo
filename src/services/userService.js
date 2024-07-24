@@ -132,11 +132,7 @@ let handleDeletePost = async (data) => {
                 }
             }
         }
-            , {
-                arrayFilters: [{
-                    "filter._id": data.idPost
-                }]
-            }
+
 
 
 
@@ -190,6 +186,86 @@ let handleCreateComment = async (data) => {
     }
 }
 
+let handleUpdateComment = async (data) => {
+    if (!data.idPost || !data.idComment) {
+        return {
+            errCode: 1,
+            errMessage: "Missing paramater",
+        }
+    } else {
+        await modelMongoDB.users.updateOne(
+            {
+                email: data.email,
+                password: data.password
+            }, {
+            $set: {
+                "post.$[filter1].comment.$[filter2]": {
+                    lastName: data.lastNameCM,
+                    firstName: data.firstNameCM,
+                    content: data.contentCM
+                }
+            }
+        }
+            , {
+                arrayFilters: [{
+                    "filter1._id": data.idPost
+                }, {
+                    "filter2._id": data.idComment
+                }]
+            }
+
+
+
+
+        )
+        return {
+            errCode: 0,
+            errMessage: "Update successful",
+
+        }
+    }
+
+}
+
+let handleDeleteComment = async (data) => {
+    if (!data.idPost) {
+        return {
+            errCode: 1,
+            errMessage: "Missing paramater",
+        }
+    } else {
+        await modelMongoDB.users.updateOne(
+            {
+                email: data.email,
+                password: data.password
+            }, {
+            $pull: {
+                "post.$[filter].comment": {
+                    _id: data.idComment
+                }
+            }
+        },
+            {
+                arrayFilters: [{
+                    "filter._id": data.idPost
+                }]
+            }
+
+
+
+
+
+
+        )
+        return {
+            errCode: 0,
+            errMessage: "Delete successful",
+
+        }
+    }
+
+}
+
 
 
 module.exports = {
@@ -199,5 +275,7 @@ module.exports = {
     handleUpdatePost: handleUpdatePost,
     handleDeletePost: handleDeletePost,
 
-    handleCreateComment: handleCreateComment
+    handleCreateComment: handleCreateComment,
+    handleUpdateComment: handleUpdateComment,
+    handleDeleteComment: handleDeleteComment
 }

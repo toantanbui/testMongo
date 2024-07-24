@@ -33,7 +33,7 @@ const schema1 = new Schema({
             },
             comment: [
                 {
-                    fistName: {
+                    firstName: {
                         type: String
                     },
                     lastName: {
