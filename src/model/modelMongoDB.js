@@ -29,7 +29,8 @@ const schema1 = new Schema({
                 type: String
             },
             time: {
-                type: Date
+                type: Date, 
+                default: Date.now 
             },
             comment: [
                 {
@@ -43,7 +44,8 @@ const schema1 = new Schema({
                         type: String
                     },
                     time: {
-                        type: Date
+                        type: Date,
+                        default: Date.now 
                     }
                 }
             ]
